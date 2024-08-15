@@ -18,6 +18,9 @@ def main_game():
     clock = pygame.time.Clock()
     WIN.blit(bg, (5,5))
     
+    img_matrix = [[pygame.image.load(os.path.join("assets", "Macaco01.png")), pygame.image.load(os.path.join("assets", "Macaco02.png")), pygame.image.load(os.path.join("assets", "Macaco03.png"))],
+                  [pygame.image.load(os.path.join("assets", "Macaco04.png")), pygame.image.load(os.path.join("assets", "Macaco05.png")), pygame.image.load(os.path.join("assets", "Macaco06.png"))],
+                  [pygame.image.load(os.path.join("assets", "Macaco07.png")), pygame.image.load(os.path.join("assets", "Macaco08.png")),"x"]]
 
     # functions that'll be used in the game ------------------------------------------------------------------------------------------
     def isClosed(): # check if the game is closed
@@ -30,7 +33,6 @@ def main_game():
         clock.tick(120)
         
         if isClosed():
-            pygame.quit()
             run = False
 
         pygame.display.update()
