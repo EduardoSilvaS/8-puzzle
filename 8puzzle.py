@@ -7,15 +7,17 @@ import sys
 pygame.init()
 
 # variables and constants that'll be used to run the game window ----------------------------------------------------------------------
-WIDTH, HEIGHT = 720, 720  
+WIDTH, HEIGHT = 310, 310  
 WIN = pygame.display.set_mode((WIDTH,HEIGHT))
 
 pygame.display.set_caption("8 Puzzle")
-background = Background(WIDTH, HEIGHT, pygame.image.load(os.path.join("assets", "background.jpg")), WIN)
+bg = pygame.image.load(os.path.join("assets", "background.jpg"))
 
 def main_game():
     run = True
     clock = pygame.time.Clock()
+    WIN.blit(bg, (5,5))
+    
 
     # functions that'll be used in the game ------------------------------------------------------------------------------------------
     def isClosed(): # check if the game is closed
