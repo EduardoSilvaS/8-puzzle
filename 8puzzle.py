@@ -22,6 +22,17 @@ def main_game():
                   [pygame.image.load(os.path.join("assets", "Macaco04.png")), pygame.image.load(os.path.join("assets", "Macaco05.png")), pygame.image.load(os.path.join("assets", "Macaco06.png"))],
                   [pygame.image.load(os.path.join("assets", "Macaco07.png")), pygame.image.load(os.path.join("assets", "Macaco08.png")),"x"]]
 
+    img_dictionary = {
+        str(pygame.image.load(os.path.join("assets", "Macaco01.png"))) : 1,
+        str(pygame.image.load(os.path.join("assets", "Macaco02.png"))) : 2,
+        str(pygame.image.load(os.path.join("assets", "Macaco03.png"))) : 3,
+        str(pygame.image.load(os.path.join("assets", "Macaco04.png"))) : 4,
+        str(pygame.image.load(os.path.join("assets", "Macaco05.png"))) : 5,
+        str(pygame.image.load(os.path.join("assets", "Macaco06.png"))) : 6,
+        str(pygame.image.load(os.path.join("assets", "Macaco07.png"))) : 7,
+        str(pygame.image.load(os.path.join("assets", "Macaco08.png"))) : 8
+    }
+
     # functions that'll be used in the game ------------------------------------------------------------------------------------------
     def isClosed(): # check if the game is closed
         for event in pygame.event.get(): 
@@ -41,14 +52,14 @@ def main_game():
     def unflatten(flat_list, rows, cols):
         return [flat_list[i * cols:(i + 1) * cols] for i in range(rows)]
     
-    # def is_solvable(matrix):
-    #     flat_list = flatten(matrix)
-    #     inversions = 0
-    #     for i in range(len(flat_list)):
-    #         for j in range(i + 1, len(flat_list)):
-    #             if flat_list[i] != 'x' and flat_list[j] != 'x' and flat_list[i] > flat_list[j]:
-    #                 inversions += 1
-    #     return inversions % 2 == 0
+    def is_solvable(matrix):
+        flat_list = flatten(matrix)
+        inversions = 0
+        for i in range(len(flat_list)):
+            for j in range(i + 1, len(flat_list)):
+                if flat_list[i] != 'x' and flat_list[j] != 'x' and img_dictionary[str(flat_list[i])] > img_dictionary[str(flat_list[j])]:
+                    inversions += 1
+        return inversions % 2 == 0
     
     def scramble_matrix(matrix):
         rows, cols = len(matrix), len(matrix[0])
@@ -56,8 +67,8 @@ def main_game():
         while True:
             random.shuffle(flat_list)
             new_matrix = unflatten(flat_list, rows, cols)
-            # if is_solvable(new_matrix):
-            return new_matrix
+            if is_solvable(new_matrix):
+                return new_matrix
 
     # Function to draw the images on the screen and store their positions
     def draw_images():
