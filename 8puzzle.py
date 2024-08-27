@@ -22,17 +22,6 @@ def main_game():
                   [pygame.image.load(os.path.join("assets", "Macaco04.png")), pygame.image.load(os.path.join("assets", "Macaco05.png")), pygame.image.load(os.path.join("assets", "Macaco06.png"))],
                   [pygame.image.load(os.path.join("assets", "Macaco07.png")), pygame.image.load(os.path.join("assets", "Macaco08.png")),"x"]]
 
-    img_dictionary = {
-        str(pygame.image.load(os.path.join("assets", "Macaco01.png"))) : 1,
-        str(pygame.image.load(os.path.join("assets", "Macaco02.png"))) : 2,
-        str(pygame.image.load(os.path.join("assets", "Macaco03.png"))) : 3,
-        str(pygame.image.load(os.path.join("assets", "Macaco04.png"))) : 4,
-        str(pygame.image.load(os.path.join("assets", "Macaco05.png"))) : 5,
-        str(pygame.image.load(os.path.join("assets", "Macaco06.png"))) : 6,
-        str(pygame.image.load(os.path.join("assets", "Macaco07.png"))) : 7,
-        str(pygame.image.load(os.path.join("assets", "Macaco08.png"))) : 8
-    }
-
     # functions that'll be used in the game ------------------------------------------------------------------------------------------
     def isClosed(): # check if the game is closed
         for event in pygame.event.get(): 
@@ -40,6 +29,14 @@ def main_game():
                 return True
         return False
 
+    def decimal_in_string(string):
+        char = 0
+        for i in range(len(string)):
+            char = string[i]
+            if char.isdigit():
+                char = int(char)
+        return char
+        
     # Function to check if a point is within a rectangle
     def is_point_in_rect(point, rect):
         px, py = point
@@ -57,7 +54,7 @@ def main_game():
         inversions = 0
         for i in range(len(flat_list)):
             for j in range(i + 1, len(flat_list)):
-                if flat_list[i] != 'x' and flat_list[j] != 'x' and img_dictionary[str(flat_list[i])] > img_dictionary[str(flat_list[j])]:
+                if flat_list[i] != 'x' and flat_list[j] != 'x' and decimal_in_string(str(flat_list[j])) > decimal_in_string([str(flat_list[i])]):
                     inversions += 1
         return inversions % 2 == 0
     
