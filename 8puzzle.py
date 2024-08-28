@@ -26,6 +26,7 @@ def main_game():
     img_matrix = [[1,2,3],[4,5,6],[7,8,'x']]
     states = []
     states.append(copy.deepcopy(img_matrix))
+    solved = False
 
     # functions that'll be used in the game ------------------------------------------------------------------------------------------
 
@@ -166,10 +167,13 @@ def main_game():
                 run = False
             elif event.type == pygame.MOUSEBUTTONDOWN:  # Detecta cliques do mouse
                 handle_click(image_positions)
+                print(f"Solved?:{solved}")
 
         if img_matrix == states[0]:
             WIN.blit(pygame.image.load(os.path.join("assets", "background.jpg")), (5,5))
             states.pop(0)
+            solved = True
+            print(f"Solved?:{solved}")
             print("You won!")
             print(f"Moves:{len(states)-1}")
             print(f"States: {states}")
