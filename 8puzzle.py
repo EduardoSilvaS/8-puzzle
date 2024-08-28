@@ -6,9 +6,9 @@ import sys
 
 pygame.init()
 
-# variables and constants that'll be used to run the game window ----------------------------------------------------------------------
-WIDTH, HEIGHT = 310, 310  
-WIN = pygame.display.set_mode((WIDTH,HEIGHT))
+# variables and constants that'll be used to run the game window ----------------------------------------------------------------------  
+WIDTH, HEIGHT = 310, 310
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 pygame.display.set_caption("8 Puzzle")
 bg = pygame.image.load(os.path.join("assets", "background.jpg"))
@@ -18,16 +18,13 @@ def main_game():
     clock = pygame.time.Clock()
     # WIN.blit(bg, (5,5))
     
-    img_matrix = [[pygame.image.load(os.path.join("assets", "Macaco01.png")), pygame.image.load(os.path.join("assets", "Macaco02.png")), pygame.image.load(os.path.join("assets", "Macaco03.png"))],
+    images = [[pygame.image.load(os.path.join("assets", "Macaco01.png")), pygame.image.load(os.path.join("assets", "Macaco02.png")), pygame.image.load(os.path.join("assets", "Macaco03.png"))],
                   [pygame.image.load(os.path.join("assets", "Macaco04.png")), pygame.image.load(os.path.join("assets", "Macaco05.png")), pygame.image.load(os.path.join("assets", "Macaco06.png"))],
-                  [pygame.image.load(os.path.join("assets", "Macaco07.png")), pygame.image.load(os.path.join("assets", "Macaco08.png")),"x"]]
+                  [pygame.image.load(os.path.join("assets", "Macaco07.png")), pygame.image.load(os.path.join("assets", "Macaco08.png")), "x"]]
+
+    img_matrix = [[1,2,3],[4,5,6],[7,8,'x']]
 
     # functions that'll be used in the game ------------------------------------------------------------------------------------------
-    def isClosed(): # check if the game is closed
-        for event in pygame.event.get(): 
-            if event.type == pygame.QUIT:
-                return True
-        return False
 
     def decimal_in_string(string):
         char = 0
@@ -36,7 +33,7 @@ def main_game():
             if char.isdigit():
                 char = int(char)
         return char
-        
+
     # Function to check if a point is within a rectangle
     def is_point_in_rect(point, rect):
         px, py = point
@@ -48,13 +45,13 @@ def main_game():
 
     def unflatten(flat_list, rows, cols):
         return [flat_list[i * cols:(i + 1) * cols] for i in range(rows)]
-    
+
     def is_solvable(matrix):
         flat_list = flatten(matrix)
         inversions = 0
         for i in range(len(flat_list)):
             for j in range(i + 1, len(flat_list)):
-                if flat_list[i] != 'x' and flat_list[j] != 'x' and decimal_in_string(str(flat_list[j])) > decimal_in_string([str(flat_list[i])]):
+                if flat_list[i] != 'x' and flat_list[j] != 'x' and flat_list[j] > flat_list[i]:
                     inversions += 1
         return inversions % 2 == 0
     
@@ -65,6 +62,7 @@ def main_game():
             random.shuffle(flat_list)
             new_matrix = unflatten(flat_list, rows, cols)
             if is_solvable(new_matrix):
+                print("solucionavel")
                 return new_matrix
 
     # Function to draw the images on the screen and store their positions
@@ -72,22 +70,61 @@ def main_game():
         image_positions = [[0,0,0],[0,0,0],[0,0,0]]
         for i in range(len(img_matrix)):
             for j in range(len(img_matrix[i])):
-                if img_matrix[i][j] != 'x':
-                    pos = (j*100+5, i*100+5)
-                    WIN.blit(img_matrix[i][j], pos)
-                    image_positions[i][j] = (img_matrix[i][j], pos[0], pos[1], 100, 100)
-                else:
-                    # Draw a 100x100 black square
-                    pos = (j*100+5, i*100+5)
-                    pygame.draw.rect(WIN, (0, 0, 0), (pos[0], pos[1], 100, 100))
-                    image_positions[i][j] = ('x', pos[0], pos[1], 100, 100)
+                pos = (j*100+5, i*100+5)
+                match img_matrix[i][j]:
+                    case 1:
+                        WIN.blit(images[0][0], pos)
+                        image_positions[i][j] = (images[0][0], pos[0], pos[1], 100, 100)
+                    case 2:
+                        WIN.blit(images[0][1], pos)
+                        image_positions[i][j] = (images[0][1], pos[0], pos[1], 100, 100)
+                    case 3:
+                        WIN.blit(images[0][2], pos)
+                        image_positions[i][j] = (images[0][2], pos[0], pos[1], 100, 100)
+                    case 4:
+                        WIN.blit(images[1][0], pos)
+                        image_positions[i][j] = (images[1][0], pos[0], pos[1], 100, 100)
+                    case 5:
+                        WIN.blit(images[1][1], pos)
+                        image_positions[i][j] = (images[1][1], pos[0], pos[1], 100, 100)
+                    case 6:
+                        WIN.blit(images[1][2], pos)
+                        image_positions[i][j] = (images[1][2], pos[0], pos[1], 100, 100)
+                    case 7:
+                        WIN.blit(images[2][0], pos)
+                        image_positions[i][j] = (images[2][0], pos[0], pos[1], 100, 100)
+                    case 8:
+                        WIN.blit(images[2][1], pos)
+                        image_positions[i][j] = (images[2][1], pos[0], pos[1], 100, 100)
+                    case 'x':
+                        pos = (j*100+5, i*100+5)
+                        pygame.draw.rect(WIN, (0, 0, 0), (pos[0], pos[1], 100, 100))
+                        image_positions[i][j] = ('x', pos[0], pos[1], 100, 100)           
 
         return image_positions
 
     def move_img(img):
+        indice = 999
+        if img == images[0][0]:
+            indice = 1
+        elif img == images[0][1]:
+            indice = 2
+        elif img == images[0][2]:
+            indice = 3
+        elif img == images[1][0]:
+            indice = 4
+        elif img == images[1][1]:
+            indice = 5
+        elif img == images[1][2]:
+            indice = 6
+        elif img == images[2][0]:
+            indice = 7
+        elif img == images[2][1]:
+            indice = 8
+
         for i in range(len(img_matrix)):
             for j in range(len(img_matrix[i])):
-                if img_matrix[i][j] == img:
+                if img_matrix[i][j] == indice:
                     print(f"Found {img} at ({i}, {j})")
                     if i-1 >= 0 and img_matrix[i-1][j] == 'x':
                         print(f"Moving {img} up from ({i}, {j}) to ({i-1}, {j})")
@@ -119,21 +156,48 @@ def main_game():
                     print(f"Image at ({image_positions[i][j][1]}, {image_positions[i][j][2]}) clicked!")
                     move_img(image_positions[i][j][0])
                     print(image_positions)
+                    return  # Adiciona um return para sair da função após detectar um clique
 
     img_matrix = scramble_matrix(img_matrix) #scramble the matrix before the game starts
 
     while run:
-        clock.tick(120)
+        clock.tick(60)  # Ajusta a taxa de atualização para 60 FPS
         
-        if isClosed():
-            run = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:  # Detecta cliques do mouse
+                handle_click(image_positions)
         
         image_positions = draw_images()
-
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONUP:
-                handle_click(image_positions)
-
-        pygame.display.update()
+        pygame.display.update()  # Atualiza a tela após desenhar as imagens
 
 main_game()
+
+#
+# return  # Adiciona um return para sair da função após detectar um clique
+#
+#    img_matrix = scramble_matrix(img_matrix) #scramble the matrix before the game starts
+#
+#    while run:
+#        clock.tick(120)
+#        
+#        if isClosed():
+#            run = False
+#        
+#        image_positions = draw_images()
+#        clock.tick(60)  # Ajusta a taxa de atualização para 60 FPS
+#        
+#        for event in pygame.event.get():
+#            if event.type == pygame.MOUSEBUTTONUP:
+#           if event.type == pygame.QUIT:
+#               run = False
+#            elif event.type == pygame.MOUSEBUTTONDOWN:  # Detecta cliques do mouse
+#                handle_click(image_positions)
+#        
+#        pygame.display.update()
+#        image_positions = draw_images()
+#        pygame.display.update()  # Atualiza a tela após desenhar as imagens
+#
+#main_game()
+#
