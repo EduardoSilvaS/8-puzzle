@@ -1,9 +1,9 @@
 # 8-puzzle
-### Simulador de 8-puzzle PI:IA
-Como instalar PyGame:
+### PI:IA
+How to install PyGame:
 ```sh
 pip install pygame
 ```
-Jogo finalizado:
+Finished game:
 
 <img src="/assets/background.jpg">
