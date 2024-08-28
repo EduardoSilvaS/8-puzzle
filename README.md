@@ -5,4 +5,5 @@ Como instalar pygame:
 pip install pygame
 ```
 Jogo finalizado:
+
 <img src="/assets/background.jpg">
