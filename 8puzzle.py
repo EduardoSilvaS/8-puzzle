@@ -1,3 +1,7 @@
+#Eduardo da Silva dos Santos    RA: 22886295
+#Giovani Bellini dos Santos     RA: 22007263
+#Victor de Melo Roston          RA: 22006737
+
 import pygame
 import os
 import time
